@@ -1,17 +1,26 @@
-const roleHandler = (requiredRole) => {
+const roleHandler = (requiredRoles) => {
+
+    const allowedRoles = Array.isArray(requiredRoles)
+        ? requiredRoles
+        : [requiredRoles];
 
     return (req, res, next) => {
 
-        if (req.role !== requiredRole) {
+        const userRoles = Array.isArray(req.roles)
+            ? req.roles
+            : [req.roles];
 
+        const hasRequiredRole = allowedRoles.some(role =>
+            userRoles.includes(role)
+        );
+
+        if (!hasRequiredRole) {
             return res.status(403).json({
-                message: "Access denied. Admin role required."
+                message: "Access denied. Required role not found."
             });
-
         }
 
         next();
-
     };
 
 };

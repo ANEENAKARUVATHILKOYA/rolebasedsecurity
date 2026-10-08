@@ -29,7 +29,7 @@ const jwtHandler = (req, res, next) => {
     }
 
     req.userid = result.userid;
-    req.role = result.role;
+    req.roles = result.roles;
 
     next();
 };
